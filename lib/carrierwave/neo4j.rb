@@ -64,7 +64,9 @@ module CarrierWave
 
             def #{column}
               _mounter(:#{column}).uploaders[0] ||= _mounter(:#{column}).blank_uploader
-              _mounter(:#{column}).uploaders[0].retrieve_from_store!(read_uploader(:#{column})) unless #{column}_changed?
+              unless #{column}_changed? && read_uploader(:#{column})
+                _mounter(:#{column}).uploaders[0].retrieve_from_store!(read_uploader(:#{column}))
+               end
               _mounter(:#{column}).uploaders[0]
             end
 
